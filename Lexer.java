@@ -21,6 +21,13 @@ public class Lexer {
 
         char character = userInput.charAt(index);
 
+        /// 345 + 6
+
+        if (character == ' ') {
+            index++;
+            return lex();
+        }
+
         if (character >= 'a' && character <= 'z') {
             Token token = new Token(character);
             index++;
@@ -34,7 +41,7 @@ public class Lexer {
 
             while (true) {
                 index++;
-                if (!isNumber(userInput.charAt(index))) {
+                if (index >= userInput.length() || !isNumber(userInput.charAt(index))) {
                     break;
                 }
             }
@@ -43,6 +50,26 @@ public class Lexer {
             double number = Double.parseDouble(numberString);
             Token t = new Token(number);
             return t;
+        }
+
+        if (character == '+') {
+            index++;
+            return new Token(Operator.ADD);
+        }
+
+        if (character == '-') {
+            index++;
+            return new Token(Operator.SUBTRACT);
+        }
+
+        if (character == '*') {
+            index++;
+            return new Token(Operator.MULTIPLY);
+        }
+
+        if (character == '/') {
+            index++;
+            return new Token(Operator.DIVIDE);
         }
 
         return new Token();
