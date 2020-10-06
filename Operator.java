@@ -1,10 +1,10 @@
 public enum Operator {
-    ADD,
-    SUBTRACT,
-    DIVIDE,
-    MULTIPLY,
+    PLUS,
+    MINUS,
+    SLASH,
+    ASTERISK,
     EQUALS,
-    HAT,
+    CARET,
     OPEN_PARENTHESIS,
     CLOSE_PARENTHESIS
 }

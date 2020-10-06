@@ -80,22 +80,22 @@ public class Lexer {
 
         if (character == '+') {
             index++;
-            return new Token(Operator.ADD);
+            return new Token(Operator.PLUS);
         }
 
         if (character == '-') {
             index++;
-            return new Token(Operator.SUBTRACT);
+            return new Token(Operator.MINUS);
         }
 
         if (character == '*') {
             index++;
-            return new Token(Operator.MULTIPLY);
+            return new Token(Operator.ASTERISK);
         }
 
         if (character == '/') {
             index++;
-            return new Token(Operator.DIVIDE);
+            return new Token(Operator.SLASH);
         }
 
         if (character == '(') {
@@ -110,7 +110,12 @@ public class Lexer {
 
         if (character == '^') {
             index++;
-            return new Token(Operator.HAT);
+            return new Token(Operator.CARET);
+        }
+
+        if (character == '=') {
+            index++;
+            return new Token(Operator.EQUALS);
         }
 
         return new Token();
