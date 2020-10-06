@@ -1,7 +1,7 @@
 public class Token {
     public TokenKind tokenKind;
     public double doubleValue;
-    public char characterValue;
+    public String identifierValue;
     public Operator operatorValue;
 
     public Token() {
@@ -13,9 +13,9 @@ public class Token {
         tokenKind = TokenKind.NUMBER;
     }
 
-    public Token(char characterValue) {
-        this.characterValue = characterValue;
-        tokenKind = TokenKind.VARIABLE;
+    public Token(String identifierValue) {
+        this.identifierValue = identifierValue;
+        tokenKind = TokenKind.IDENTIFIER;
     }
 
     public Token(Operator operatorValue) {

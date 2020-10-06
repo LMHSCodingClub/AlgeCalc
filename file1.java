@@ -13,8 +13,8 @@ class Main {
                 case OPERATOR:
                     System.out.println("Operator " + t.operatorValue.toString());
                     break;
-                case VARIABLE:
-                    System.out.println("Variable " + t.characterValue);
+                case IDENTIFIER:
+                    System.out.println("Identifer " + t.identifierValue);
                     break;
                 case NUMBER:
                     System.out.println("Number " + t.doubleValue);

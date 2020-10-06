@@ -3,5 +3,8 @@ public enum Operator {
     SUBTRACT,
     DIVIDE,
     MULTIPLY,
-    EQUALS
+    EQUALS,
+    HAT,
+    OPEN_PARENTHESIS,
+    CLOSE_PARENTHESIS
 }

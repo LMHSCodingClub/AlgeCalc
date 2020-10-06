@@ -1,6 +1,6 @@
 public enum TokenKind {
     NUMBER,
     OPERATOR,
-    VARIABLE,
+    IDENTIFIER,
     END_OF_FILE
 }
