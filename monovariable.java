@@ -45,6 +45,14 @@ class Main
       return ; // figure out
     }
     
-    
+    public static double useQuarticFormula(double a, double b, double c, double d, double e) {
+      // Store placeholder variables p, q, and r
+      double p = b - (3 * Math.pow(a, 2)) / 8;
+      double q = c - (a * b / 2) + (Math.pow(a, 3) / 8);
+      double r = d - (a * c / 4) + (Math.pow(a, 2) * b) / 16 - Math.pow(3 * a, 4) / 256;
+      
+      
+
+    }
     
 }
