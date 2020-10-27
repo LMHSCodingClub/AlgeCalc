@@ -58,7 +58,6 @@ public class Lexer {
 
             String identifier = userInput.substring(startIndex, index);
             Token token = new Token(identifier);
-            index++;
             return token;
         }
 
