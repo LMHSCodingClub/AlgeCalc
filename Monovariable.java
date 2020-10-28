@@ -1,87 +1,47 @@
-import java.lang.Math; 
+//REMEMBER TO SEND A SHARE LINK NOT THE LINK ON TOP
+import java.lang.Math;
+import java.util.Scanner;
 
-class Main
-{
-     public static void main(String[] args)
-     {
-      
-      
-     }
-    
-    public static double monovar()
-    {
-      double a1 = 1.1; // random inputs
-      double a2 = 2.1;
-      double a3 = 1.1;
-      double a4 = 2.1;
-      double a5 = 1.1;
-      
-      double[]arr = alphebatize(a1, a2, a3, a4, a5);
-       
-      // double b = [0]arr; figure out array usage
-      depress(b, c, d, e); // return somehow
-        
-      return 0.0;
-    }
-    
-    public static double alphabetize(a1, a2, a3, a4, a5)
-    {
-      double b = a2/a1;
-      double c = a3/a1;
-      double d = a4/a1;
-      double e = a5/a1;
-       
-      double[]arr = {b, c, ,d , e};
-        
-      return arr;
-    }
-    
-    public static double depress(b, c, d, e)
-    {
-      
-        
-        
-        
-      return ; // figure out
-    }
-     
-      public static double[] useLinearFormula(double a, double b) {      // LINEAR FORMULA
+class Monovariable {
+  public static double[] useLinearFormula(double a, double b) {      // LINEAR FORMULA
     return new double[] {-b / a};
   }
 
   public static double[] useQuadraticFormula(double a, double b, double c) {  // QUADRATIC FORMULA
-    double discriminant = Math.pow(b, 2) - 4*a*c;
-    double result1 = (-b + Math.sqrt(discriminant) / (2 * a));
-    double result2 = (-b - Math.sqrt(discriminant) / (2 * a));
+    double determinant = Math.pow(b, 2) - 4*a*c;
+    double result1 = (-b + Math.sqrt(determinant) / (2 * a));
+    double result2 = (-b - Math.sqrt(determinant) / (2 * a));
     
-  //  if (discriminant > 0){
+  //  if (determinant > 0){
     return new double[] {result1, result2};
   //  } else {
-      //when discriminant is negative, return value with i
+      //when determinant is negative, return value with i
   //  }
   }
 
   public static double[] useCubicFormula(double a, double b, double c, double d) // CUBIC FORMULA
   {
-    
-    double delta0 =  Math.pow(a,3)*c;
-    double delta1 = 2*Math.pow(b,3)-9*a*b*c+27*Math.pow(a,2)*d;
-    
-    double bigC = Math.cbrt((delta1 + Math.sqrt(Math.pow(delta1, 2) - Math.pow(delta0, 3)))/2);
+    // USE ARRAYS TO REPRESENT EVERYTHING AS A COMPLEX NUMBER!!!!
+    double p = -b/(3*a);
+    double q = Math.pow(p, 3) + (b*c-3*a*d)/(6*Math.pow(a,2));
+    double r = c/(3*a);
 
-    if ( bigC == 0)
-    {
-      bigC = Math.cbrt((delta1 - Math.sqrt(Math.pow(delta1, 2) - Math.pow(delta0, 3)))/2); 
-    }
-    double result1 = -1/(3*a)*(b+bigC+delta0/bigC);
-    double result2 = -888.8;
-    double result3 = -999.9;
+    //double xPart1 = (Math.pow(Math.pow(q + (Math.pow(q,2) + (r - Math.pow(Math.pow(p,2),(1/2)),(1/3)))))));
+    double xPart1 = Math.pow(q + Math.pow((Math.pow(q,2) + Math.pow(Math.pow(r - Math.pow(p,2)),3)),(1/2)),1/3);
 
+    //double xPart2 = Math.pow(q - (Math.pow(q, 2) + Math.pow(Math.pow(r-Math.pow(p, 2), 3), (1/2), (1/3));
+    
+    double x = xPart1 + xPart2 + p;
+    
+    double result1 = x;
+    double result2 = -9898.98;
+    double result3 = -8989.89;
 
     return new double[] {result1, result2, result3};
   
   }
   
+/*
   public static double[] useCubicFormulaLambda(double a, double b, double c, double d) // CUBIC FORMULA, BUT ONLY RETURNS ONE ANSWER
   {
     
@@ -102,8 +62,12 @@ class Main
     return new double[] {result1, result2, result3};
   
   }
+*/
 
 
+
+
+/*
   public static double[] useQuarticFormula(double a, double b, double c, double d, double e) { // QUARTIC FORMULA
       // Store placeholder variables p, q, and r
       double p = b - (3 * Math.pow(a, 2)) / 8;
@@ -118,5 +82,5 @@ class Main
       
     return new double[] {result1, result2, result3, result4};
   }
-    
-}
+  */
+} 
