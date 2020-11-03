@@ -3,20 +3,20 @@ import java.lang.Math;
 import java.util.Scanner;
 
 class Monovariable {
-  public static double[] useLinearFormula(double a, double b) {      // LINEAR FORMULA
+  public static double[] useLinearFormula(double a, double b) {
     return new double[] {-b / a};
   }
 
-  public static double[] useQuadraticFormula(double a, double b, double c) {  // QUADRATIC FORMULA
-    double determinant = Math.pow(b, 2) - 4*a*c;
-    double result1 = (-b + Math.sqrt(determinant) / (2 * a));
-    double result2 = (-b - Math.sqrt(determinant) / (2 * a));
+  public static double[] useQuadraticFormula(double a, double b, double c) {
+    double discriminant = Math.pow(b, 2) - 4*a*c;
     
-  //  if (determinant > 0){
+   if (discriminant >= 0) { // If the result is a real number (rational or irrational)
+    double result1 = (-b + Math.sqrt(discriminant) / (2 * a));
+    double result2 = (-b - Math.sqrt(discriminant) / (2 * a));
     return new double[] {result1, result2};
-  //  } else {
-      //when determinant is negative, return value with i
-  //  }
+   } 
+
+   return new double[] {};    
   }
 
   public static double[] useCubicFormula(double a, double b, double c, double d) // CUBIC FORMULA
@@ -41,7 +41,7 @@ class Monovariable {
   
   }
   
-/*
+
   public static double[] useCubicFormulaLambda(double a, double b, double c, double d) // CUBIC FORMULA, BUT ONLY RETURNS ONE ANSWER
   {
     
@@ -62,12 +62,7 @@ class Monovariable {
     return new double[] {result1, result2, result3};
   
   }
-*/
 
-
-
-
-/*
   public static double[] useQuarticFormula(double a, double b, double c, double d, double e) { // QUARTIC FORMULA
       // Store placeholder variables p, q, and r
       double p = b - (3 * Math.pow(a, 2)) / 8;
@@ -82,5 +77,41 @@ class Monovariable {
       
     return new double[] {result1, result2, result3, result4};
   }
-  */
+
+  public static double[] complexFun(double num1[], char sign, double[] num2) {
+double num3[] = new double[2];
+      
+      switch(sign) {
+    case '+':
+      num3[0] = num1[0] + num2[0];
+      num3[1] = num1[1] + num2[1];
+    break;
+    
+    case '-':
+      num3[0] = num1[0] - num2[0];
+      num3[1] = num1[1] - num2[1];
+    break;
+    
+    case '*':
+      
+    break;
+    
+    case '^':
+          num3[0] = 1;
+          num3[1] = 1;
+          for (int i = 0, i < num2[0]; i++)
+          {
+            num3[] = complex_fun(num3[], '*', num1[]);
+          }
+    
+    break;
+  default:
+
+    // code block
+}
+    
+  }
+
+
+
 } 
