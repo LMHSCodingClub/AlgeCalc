@@ -117,6 +117,11 @@ public class Lexer {
             return new Token(Operator.EQUALS);
         }
 
+        if (character == '%') {
+            index++;
+            return new Token(Operator.PERCENT);
+        }
+
         return new Token();
     }
 }

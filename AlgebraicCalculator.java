@@ -6,7 +6,6 @@ class AlgebraicCalculator {
     String input = scan.nextLine();
     Lexer lexer = new Lexer(input);
 
-    // Main program
     Token t;
     try {
       while ((t = lexer.lex()).tokenKind != TokenKind.END_OF_FILE) {

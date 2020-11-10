@@ -59,7 +59,7 @@ class Monovariable {
     double result2 = bigC * ((-1 + Math.sqrt(-3))/2);
     double result3 = bigC * ((-1 - Math.sqrt(-3))/2);
 
-    return new double[] {result1, result2, result3};
+    return new double[] {result1};//commmunism
   
   }
 
@@ -77,41 +77,4 @@ class Monovariable {
       
     return new double[] {result1, result2, result3, result4};
   }
-
-  public static double[] complexFun(double num1[], char sign, double[] num2) {
-double num3[] = new double[2];
-      
-      switch(sign) {
-    case '+':
-      num3[0] = num1[0] + num2[0];
-      num3[1] = num1[1] + num2[1];
-    break;
-    
-    case '-':
-      num3[0] = num1[0] - num2[0];
-      num3[1] = num1[1] - num2[1];
-    break;
-    
-    case '*':
-      
-    break;
-    
-    case '^':
-          num3[0] = 1;
-          num3[1] = 1;
-          for (int i = 0, i < num2[0]; i++)
-          {
-            num3[] = complex_fun(num3[], '*', num1[]);
-          }
-    
-    break;
-  default:
-
-    // code block
-}
-    
-  }
-
-
-
 } 

@@ -5,6 +5,7 @@ public enum Operator {
     ASTERISK,
     EQUALS,
     CARET,
+    PERCENT,
     OPEN_PARENTHESIS,
     CLOSE_PARENTHESIS,
     PARENTHETICAL_EXPRESSION
