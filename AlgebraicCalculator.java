@@ -4,9 +4,9 @@ class AlgebraicCalculator {
   public static void main(String[] args) {
     Scanner scan = new Scanner(System.in);
     String input = scan.nextLine();
-
     Lexer lexer = new Lexer(input);
 
+    // Main program
     Token t;
     try {
       while ((t = lexer.lex()).tokenKind != TokenKind.END_OF_FILE) {
