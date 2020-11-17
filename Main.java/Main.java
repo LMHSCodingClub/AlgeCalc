@@ -1,7 +1,15 @@
 import java.lang.Math;
 
+class Main {
+  public static void main(String [] args)
+    {
+      double [] num1 = {2, 4};
+      double [] num2 = {3, 5};
 
-class ComplexService {
+      new ComplexService(num1, '*', num2);
+    }
+  }
+  class ComplexService {
   private double[] num1;
   //private Operator operator;
   private double[] num2;
@@ -90,4 +98,3 @@ class ComplexService {
   }
 
 }
-

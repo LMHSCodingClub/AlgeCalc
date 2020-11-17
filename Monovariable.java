@@ -19,6 +19,8 @@ class Monovariable {
    return new double[] {};    
   }
 
+  /*
+
   public static double[] useCubicFormula(double a, double b, double c, double d) // CUBIC FORMULA
   {
     // USE ARRAYS TO REPRESENT EVERYTHING AS A COMPLEX NUMBER!!!!
@@ -77,4 +79,5 @@ class Monovariable {
       
     return new double[] {result1, result2, result3, result4};
   }
+  */
 } 
