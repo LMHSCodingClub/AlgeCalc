@@ -1,5 +1,9 @@
 class SyntaxFacts {
     public static int unaryOperatorPrecedence(Operator operator) {
+        if (operator == null) {
+            return 0;
+        }
+
         switch (operator) {
             case MINUS:
                 return 10;
@@ -9,6 +13,10 @@ class SyntaxFacts {
     }
 
     public static int binaryOperatorPrecedence(Operator operator) {
+        if (operator == null) {
+            return 0;
+        }
+        
         switch (operator) {
             case ASTERISK:
             case SLASH:
