@@ -101,11 +101,6 @@ public class Parser {
         if (current.tokenKind == TokenKind.NUMBER) {
             LiteralExpression expr = new LiteralExpression(nextToken().doubleValue);
 
-            if (current.tokenKind == TokenKind.IDENTIFIER) {
-              Token variable = nextToken();
-              return new BinaryExpression(Operator.MULTIPLY, expr, new IdentifierExpression(variable.identifierValue));
-            }
-
             return expr;
         } else {
             throw new IllegalArgumentException();
