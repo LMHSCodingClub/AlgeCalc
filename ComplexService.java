@@ -7,6 +7,14 @@ class ComplexService {
   
   private double[] polarize(double num[])
   {
+    double r = Math.sqrt( Math.pow(num[0], 2) + Math.pow(num[1],2) );
+    double theta = Math.atan(num[1] / num[0]);
+    double[] polar2 = {r, theta};
+    return polar2;
+
+  }
+
+  private double[] depolarize(double polar2[])
     double r = sqrt( Math.pow(num[0], 2) + Math.pow(num[1],2) );
     double theta = Math.arctan(num[1] / num[0]);
     double[] polar = {r, theta};
@@ -85,6 +93,10 @@ class ComplexService {
 // modification: z = r(cos x + i sin x)
 // r^(1/n) ( cos((x+2pi*k)/(n)) + i*sin((x+2pi*k)/n))
     case '2': // square root
+        double[] polar = polarize(num1);
+        num3[0] = Math.pow(polar[0],1/32) * Math.cos((polar[1]/(2))); // You add a 2pi*k for other roots
+        num3[1] = Math.pow(polar[0],1/2) * Math.sin((polar[1]/(2))); // You add a 2pi*k for other roots
+    break; 
         double[] polar = polarize(num1);
         num3[0] = Math.pow(polar[0],1/32) * Math.cos((polar[1]/(2))); // You add a 2pi*k for other roots
         num3[1] = Math.pow(polar[0],1/2) * Math.sin((polar[1]/(2))); // You add a 2pi*k for other roots
