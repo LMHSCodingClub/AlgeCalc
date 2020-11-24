@@ -16,6 +16,7 @@ class UnaryExpression extends Expression {
         this.operator = operator;
         this.operand = operand;
     }
+    
 }
 
 // 3 + 2
@@ -38,4 +39,12 @@ class LiteralExpression extends Expression {
     public LiteralExpression(double value) {
         this.value = value;
     }
+}
+
+class IdentifierExpression extends Expression {
+  public String name;
+
+  public IdentifierExpression(String name) {
+    this.name = name;
+  }
 }

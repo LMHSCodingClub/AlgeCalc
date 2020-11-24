@@ -72,6 +72,8 @@ public class Parser {
             left = parsePrimaryExpression();
         }
 
+        // 3x + 1
+
         while (true) {
             int precedence = SyntaxFacts.binaryOperatorPrecedence(current.operatorValue);
 
@@ -97,7 +99,9 @@ public class Parser {
 
     public Expression parsePrimaryExpression() {
         if (current.tokenKind == TokenKind.NUMBER) {
-            return new LiteralExpression(nextToken().doubleValue);
+            LiteralExpression expr = new LiteralExpression(nextToken().doubleValue);
+
+            return expr;
         } else {
             throw new IllegalArgumentException();
         }

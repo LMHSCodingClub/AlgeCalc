@@ -1,33 +1,37 @@
 import java.util.Scanner;
 
 class AlgebraicCalculator {
+  static UserInterface gInterface;
   public static void main(String[] args) {
     Scanner scan = new Scanner(System.in);
     String input = scan.nextLine();
     Lexer lexer = new Lexer(input);
+    Parser parser = new Parser(lexer);
 
-    Token t;
-    try {
-      while ((t = lexer.lex()).tokenKind != TokenKind.END_OF_FILE) {
-        switch (t.tokenKind) {
+    Expression expr = parser.parseExpression(0);
+    gInterface = new UserInterface();
+  }
+
+  static void printObject(Object o) {
+    if (o instanceof Token) {
+      Token t = (Token) o;
+      switch (t.tokenKind) {
+        case NUMBER:
+          System.out.print(t.numberValue);
+          break;
         case OPERATOR:
-          System.out.println("Operator " + t.operatorValue.toString());
+          System.out.print(t.operatorValue);
           break;
         case IDENTIFIER:
-          System.out.println("Identifer " + t.identifierValue);
-          break;
-        case NUMBER:
-          System.out.println("Number " + t.doubleValue);
+          System.out.print(t.identifierValue);
           break;
         case END_OF_FILE:
-          System.out.println("End Of File");
+          System.out.print("EOF");
           break;
-
-        }
       }
-    } catch (Exception e) {
-      e.printStackTrace();
-      System.out.println("An error occurred and the result could not be calculated");
+    }
+    if (o instanceof Expression) {
+      /* */
     }
   }
 }
