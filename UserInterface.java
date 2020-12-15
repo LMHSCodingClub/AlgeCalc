@@ -1,8 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Scanner;
 
 class UserInterface extends JFrame {
+  public static void main(String[] args) {
+    new UserInterface();
+  }
+
   public UserInterface() {
     BoxLayout layout = new BoxLayout(getContentPane(), BoxLayout.Y_AXIS);
     setLayout(layout);
@@ -16,6 +21,7 @@ class UserInterface extends JFrame {
 
     JButton b = new JButton("Calculate");
     
+    // The text field
     JTextField equation = new JTextField(30);
     equation.setBounds(50, 50, 50, 50);
     equation.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -33,12 +39,14 @@ class UserInterface extends JFrame {
 
     b.setBounds(80, 100, 40, 40);
 
+    // Click listener for the submit button
     b.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        System.out.println("Calculating...");
-        System.out.println(equation.getText());
-        solution.setText("123");
+        Lexer lexer = new Lexer(equation.getText());
+        Parser parser = new Parser(lexer);
+    
+        Expression expr = parser.parseExpression(0);
       }
     });
 
@@ -47,6 +55,8 @@ class UserInterface extends JFrame {
     add(solutionText); 
     
     setSize(800, 500);
+
+    setDefaultCloseOperation(EXIT_ON_CLOSE);
     setVisible(true);
   }
 }
