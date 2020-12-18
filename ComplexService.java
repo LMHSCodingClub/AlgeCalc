@@ -1,8 +1,5 @@
 import java.lang.Math;
 
-import org.graalvm.compiler.nodes.memory.MemoryCheckpoint.Single;
-
-
 class ComplexService {
   
   private double[] polarize(double num[])
@@ -14,23 +11,15 @@ class ComplexService {
 
   }
 
-  private double[] depolarize(double polar2[])
-    double r = sqrt( Math.pow(num[0], 2) + Math.pow(num[1],2) );
-    double theta = Math.arctan(num[1] / num[0]);
+  private double[] depolarize(double[] polar2) {
+    double r = Math.sqrt( Math.pow(polar2[0], 2) + Math.pow(polar2[1], 2) );
+    double theta = Math.atan(polar2[1] / polar2[0]);
     double[] polar = {r, theta};
     return polar;
 
   }
 
-  private double[] depolarize(double polar[])
-  {
-    double[] num = new double[2];
 
-    num[0] = Math.cos(polar[1])*polar[0];
-    num[1] = Math.sin(polar[1])*polar[0];
-
-    return num;
-  }
 
 // modification: z = r(cos x + i sin x)
 // r^(1/n) ( cos((x+2pi*k)/(n)) + i*sin((x+2pi*k)/n))
@@ -84,36 +73,40 @@ class ComplexService {
     break;
 
     case '3': //cube root
+          if (num1[1] == 0)
+          {
+            num3[0] = 0.0;
+            num3[1] = Math.pow( Math.abs(num1[0]) , 1.0/3.0);
+          }
+          else
+          {
           double[] polar = polarize(num1);
-          num3[0] = Math.pow(polar[0],1/3) * Math.cos((polar[1]/(3))); // You add a 2pi*k for other roots
-          num3[1] = Math.pow(polar[0],1/3) * Math.sin((polar[1]/(3))); // You add a 2pi*k for other roots
-          
+          num3[0] = Math.pow(polar[0],1.0/3.0) * Math.cos((polar[1]/(3))); // You add a 2pi*k for other roots
+          num3[1] = Math.pow(polar[0],1.0/3.0) * Math.sin((polar[1]/(3))); // You add a 2pi*k for other roots
+          }
     break;
 //DM: (cos x + i*sin x)^n = cos (nx) + i*sin(nx)
 // modification: z = r(cos x + i sin x)
 // r^(1/n) ( cos((x+2pi*k)/(n)) + i*sin((x+2pi*k)/n))
     case '2': // square root
+        if (num1[1] == 0)
+        {
+          num3[0] = 0.0;
+          num3[1] = Math.pow( Math.abs(num1[0]) , 1.0/2.0);
+        }
+        else
+        {
         double[] polar = polarize(num1);
-        num3[0] = Math.pow(polar[0],1/32) * Math.cos((polar[1]/(2))); // You add a 2pi*k for other roots
-        num3[1] = Math.pow(polar[0],1/2) * Math.sin((polar[1]/(2))); // You add a 2pi*k for other roots
+        num3[0] = Math.pow(polar[0],1.0/2.0) * Math.cos((polar[1]/(2))); // You add a 2pi*k for other roots
+        num3[1] = Math.pow(polar[0],1.0/2.0) * Math.sin((polar[1]/(2))); // You add a 2pi*k for other roots
+        }
     break; 
-        double[] polar = polarize(num1);
-        num3[0] = Math.pow(polar[0],1/32) * Math.cos((polar[1]/(2))); // You add a 2pi*k for other roots
-        num3[1] = Math.pow(polar[0],1/2) * Math.sin((polar[1]/(2))); // You add a 2pi*k for other roots
-    break; 
-    case 's': //cube root
-          double[] polar = polarize(num1);
-          num3[0] = Math.pow(polar[0],1/3) * Math.cos((polar[1]/(3))); // You add a 2pi*k for other roots
-          num3[1] = Math.pow(polar[0],1/3) * Math.sin((polar[1]/(3))); // You add a 2pi*k for other roots
-          
-    break;
+       
     default:
       throw new IllegalArgumentException("Moron! Wrong operator");
-      //break;
-    
-      }
-      return num3;
   } 
 
+  return num3;
+  }
 }
 

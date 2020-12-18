@@ -4,11 +4,11 @@ class AlgebraicCalculator {
   static UserInterface gInterface;
   public static void main(String[] args) {
     Scanner scan = new Scanner(System.in);
-    String input = scan.nextLine();
+    String input = scan.nextLine(); 
     Lexer lexer = new Lexer(input);
     Parser parser = new Parser(lexer);
 
-    Expression expr = parser.parseExpression(0);
+    Expression expr = parser.parseExpression();
     gInterface = new UserInterface();
   }
 
@@ -17,7 +17,7 @@ class AlgebraicCalculator {
       Token t = (Token) o;
       switch (t.tokenKind) {
         case NUMBER:
-          System.out.print(t.numberValue);
+          System.out.print(t.doubleValue);
           break;
         case OPERATOR:
           System.out.print(t.operatorValue);
