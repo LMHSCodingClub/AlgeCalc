@@ -1,6 +1,5 @@
 //REMEMBER TO SEND A SHARE LINK NOT THE LINK ON TOP
 import java.lang.Math;
-import java.util.Scanner;
 
 class Monovariable {
   public static double[] useLinearFormula(double a, double b) {

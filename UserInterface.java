@@ -38,16 +38,33 @@ class UserInterface extends JFrame {
     solution.setFont(new Font("Arial", Font.PLAIN, 20));
 
     b.setBounds(80, 100, 40, 40);
-    Frame f = this;
 
     // Click listener for the submit button
-    b.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
+    b.addActionListener((e) -> {
         Lexer lexer = new Lexer(equation.getText());
         Parser parser = new Parser(lexer);
 
         Expression expr = parser.parseExpression(0);
+
+        // Exit if the expression isn't binary
+        if (!(expr instanceof BinaryExpression)) {
+          JOptionPane.showMessageDialog(UserInterface.this, "Must be a binary expression!");
+          return;
+        }
+
+        BinaryExpression binExp = (BinaryExpression) expr;
+
+        Expression left = binExp.leftHandSide;
+        Expression right = binExp.rightHandSide;
+
+        if (!(right instanceof LiteralExpression)) {
+          JOptionPane.showMessageDialog(UserInterface.this, "The right hand side must be a literal expression!");
+          return;
+        } 
+
+        
+
+        solutionText.setText();
       }
     });
 
