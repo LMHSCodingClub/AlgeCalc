@@ -25,12 +25,12 @@ class UserInterface extends JFrame {
     JTextField equation = new JTextField(30);
     equation.setBounds(50, 50, 50, 50);
     equation.setFont(new Font("Arial", Font.PLAIN, 20));
-    equation.setMaximumSize(new Dimension(Integer.MAX_VALUE,b.getMinimumSize().height));
-    
+    equation.setMaximumSize(new Dimension(Integer.MAX_VALUE, b.getMinimumSize().height));
+
     // Display the solution line panel
     solutionLine.add(equation);
     solutionLine.add(b);
-    
+
     JLabel solutionText = new JLabel("Solution: ");
     solutionText.setFont(new Font("Arial", Font.PLAIN, 20));
 
@@ -38,6 +38,7 @@ class UserInterface extends JFrame {
     solution.setFont(new Font("Arial", Font.PLAIN, 20));
 
     b.setBounds(80, 100, 40, 40);
+    Frame f = this;
 
     // Click listener for the submit button
     b.addActionListener(new ActionListener() {
@@ -45,15 +46,15 @@ class UserInterface extends JFrame {
       public void actionPerformed(ActionEvent e) {
         Lexer lexer = new Lexer(equation.getText());
         Parser parser = new Parser(lexer);
-    
+
         Expression expr = parser.parseExpression(0);
       }
     });
 
     add(prompt);
     add(solutionLine);
-    add(solutionText); 
-    
+    add(solutionText);
+
     setSize(800, 500);
 
     setDefaultCloseOperation(EXIT_ON_CLOSE);

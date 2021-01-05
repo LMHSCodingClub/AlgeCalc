@@ -18,6 +18,8 @@ class SyntaxFacts {
         }
         
         switch (operator) {
+            case CARET:
+            return 10;
             case ASTERISK:
             case SLASH:
                 return 9;
