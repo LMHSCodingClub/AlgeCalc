@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.text.DecimalFormat;
 
 class UserInterface extends JFrame {
   private static final long serialVersionUID = 1L;
@@ -21,9 +22,8 @@ class UserInterface extends JFrame {
 
     JButton b = new JButton("Calculate");
 
-    ListModel listModel = new DefaultListModel();
-    JList solutionList = new JList(listModel);
-
+    DefaultListModel<String> listModel = new DefaultListModel<>();
+    JList<String> solutionList = new JList<>(listModel);
 
     // The text field
     JTextField equation = new JTextField(30);
@@ -80,12 +80,26 @@ class UserInterface extends JFrame {
               coefficients[4]);
           break;
       }
+
+      listModel.clear();
       
       for (double[] solution : solutions) {
-        solution[0] = Math.round(solution[0] * 1000) / 1000;
-        solution[1] = Math.round(solution[1] * 1000) / 1000;
+        // Round the real portion to the nearest thousandth
+        DecimalFormat f = new DecimalFormat("##.000");
+
+        
+
+        solution[0] *= 1000;
+        solution[0] = Math.round(solution[0]);
+        solution[0] /= 1000;
+
+        // Round the imaginary portion to the nearest thousandth
+        solution[1] *= 1000;
+        solution[1] = Math.round(solution[0]);
+        solution[1] /= 1000;
+
         String finalSolutionText = solution[0] + " + " + solution[1] + "i, \n";
-        solutionList.add(new JLabel(finalSolutionText));
+        listModel.addElement(finalSolutionText);
         System.out.println("Solution: " + finalSolutionText);
       }
     });
