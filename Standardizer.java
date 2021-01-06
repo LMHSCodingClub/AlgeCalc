@@ -1,29 +1,54 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Puts an equation in standard form
  */
 public class Standardizer {
-    private BinaryExpression userExpression;
+    private BinaryExpression userEquation;
 
-    public Standardizer(BinaryExpression userExp) {
-        userExpression = userExp;
+    public Standardizer(BinaryExpression userEq) {
+        userEquation = userEq;
     }
 
-    public double[] getNecessaryToTheDeveloperCoefficientsFromExpression() {
-        BinaryExpression tempFullExpression = userExpression;
+    public double[] getCoefficientsFromExpression() {
+        Expression expression = userEquation.leftHandSide;
         ArrayList<Double> term = new ArrayList<Double>();
 
         // 3x + 4 = 5
         // 3x + 4 - 5 = 0
         // 3x - 1 = 0
 
-        while (!(tempFullExpression.leftHandSide instanceof BinaryExpression)) {
-            term.add(getCoefficientFromExpression(tempFullExpression.rightHandSide));
-            tempFullExpression = (BinaryExpression) tempFullExpression.leftHandSide;
+        // 3
+        while (expression instanceof BinaryExpression) {
+            BinaryExpression binaryExpr = ((BinaryExpression) expression); 
+
+            if (!(binaryExpr.leftHandSide instanceof BinaryExpression)) {
+                break;
+            }
+
+            if (binaryExpr.operator != Operator.PLUS && binaryExpr.operator != Operator.MINUS) {
+                break;
+            }
+
+            term.add(getCoefficientFromExpression(binaryExpr.rightHandSide));
+            expression = binaryExpr.leftHandSide;
         }
 
-        // 10x^2 + 12x + 4
+        term.add(getCoefficientFromExpression(expression));
+
+
+        return StreamSupport
+            .stream(Spliterators.spliteratorUnknownSize(term
+                .stream()
+                .collect(Collectors.toCollection(LinkedList::new))
+                .descendingIterator(), Spliterator.ORDERED), false
+            )
+            .mapToDouble(Double::doubleValue).toArray();
     }
 
     /**
@@ -40,6 +65,11 @@ public class Standardizer {
                 }
             } else if (binarExp.operator == Operator.CARET) {
                 return getCoefficientFromExpression(binarExp.leftHandSide);
+            }
+        } else if (exp instanceof UnaryExpression) {
+            UnaryExpression unExp = (UnaryExpression) exp;
+            if (unExp.operator == Operator.MINUS) {
+                return -1 * getCoefficientFromExpression(unExp.operand);
             }
         } else if (exp instanceof LiteralExpression) {
             return ((LiteralExpression) exp).value;
