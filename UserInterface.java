@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.GroupLayout.Alignment;
+
 import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.Arrays;
@@ -11,20 +13,34 @@ class UserInterface extends JFrame {
   }
 
   public UserInterface() {
+    Font mainFont = new Font("Arial", Font.PLAIN, 20);
+
     BoxLayout layout = new BoxLayout(getContentPane(), BoxLayout.Y_AXIS);
     setLayout(layout);
 
+    Insets margins = new Insets(10, 20, 10, 20);
+
     JLabel prompt = new JLabel("Enter an equation for AlgeCalc to solve");
-    prompt.setFont(new Font("Arial", Font.PLAIN, 20));
+
+    prompt.setFont(mainFont);
 
     JPanel solutionLine = new JPanel();
+
     BoxLayout solutionLineLayout = new BoxLayout(solutionLine, BoxLayout.X_AXIS);
     solutionLine.setLayout(solutionLineLayout);
 
     JButton b = new JButton("Calculate");
 
     DefaultListModel<String> listModel = new DefaultListModel<>();
-    JList<String> solutionList = new JList<>(listModel);
+    JList<String> solutionList = new JList<>(listModel) {
+      private static final long serialVersionUID = -270397778461875894L;
+
+      public Insets getInsets() {
+        return super.getInsets(margins);
+      }
+    };
+    solutionList.setFont(mainFont);
+    
 
     // The text field
     JTextField equation = new JTextField(30);
@@ -55,10 +71,9 @@ class UserInterface extends JFrame {
       }
 
       BinaryExpression binExp = (BinaryExpression) expr;
-      Expression right = binExp.rightHandSide;
 
-      if (!(right instanceof LiteralExpression)) {
-        JOptionPane.showMessageDialog(UserInterface.this, "The right hand side must be a literal expression!");
+      if (!(binExp.operator == Operator.EQUALS)) {
+        JOptionPane.showMessageDialog(UserInterface.this, "You must enter an equation!");
         return;
       }
 
@@ -67,43 +82,48 @@ class UserInterface extends JFrame {
       double[][] solutions = null;
 
       switch (coefficients.length) {
-        case 2:
-          solutions = new double[][] { Monovariable.useLinearFormula(coefficients[0], coefficients[1]) };
-          break;
-        case 3:
-          System.out.println("Coefficients: " + Arrays.toString(coefficients));
-          solutions = Monovariable.useQuadraticFormula(coefficients[0], coefficients[1], coefficients[2]);
-          break;
-        case 4:
-          solutions = Monovariable.useCubicFormula(coefficients[0], coefficients[1], coefficients[2], coefficients[3]);
-          break;
-        case 5:
-          solutions = Monovariable.useQuarticFormula(coefficients[0], coefficients[1], coefficients[2], coefficients[3],
-              coefficients[4]);
-          break;
+      case 2:
+        solutions = new double[][] { Monovariable.useLinearFormula(coefficients[0], coefficients[1]) };
+        break;
+      case 3:
+        System.out.println("Coefficients: " + Arrays.toString(coefficients));
+        solutions = Monovariable.useQuadraticFormula(coefficients[0], coefficients[1], coefficients[2]);
+        break;
+      case 4:
+        solutions = Monovariable.useCubicFormula(coefficients[0], coefficients[1], coefficients[2], coefficients[3]);
+        break;
+      case 5:
+        solutions = Monovariable.useQuarticFormula(coefficients[0], coefficients[1], coefficients[2], coefficients[3],
+            coefficients[4]);
+        break;
       }
 
       listModel.clear();
-      
+
       for (double[] solution : solutions) {
-        // Round the real portion to the nearest thousandth
-        DecimalFormat f = new DecimalFormat("##.000");
+        // Round each part of each solution to the nearest thousandth
+        DecimalFormat f = new DecimalFormat("##.###");
 
+        String finalSolutionText = "";
+
+        if (solution[1] == 0) {
+          finalSolutionText = f.format(solution[0]);
+        } else {
+          finalSolutionText = f.format(solution[0]) + " + " + f.format(solution[1]) + "i, \n";
+        }
         
-
-        solution[0] *= 1000;
-        solution[0] = Math.round(solution[0]);
-        solution[0] /= 1000;
-
-        // Round the imaginary portion to the nearest thousandth
-        solution[1] *= 1000;
-        solution[1] = Math.round(solution[0]);
-        solution[1] /= 1000;
-
-        String finalSolutionText = solution[0] + " + " + solution[1] + "i, \n";
-        listModel.addElement(finalSolutionText);
-        System.out.println("Solution: " + finalSolutionText);
+        int i = 0;
+        do {
+          // If the solution is a duplicate
+          if (!solutions[i].equals(solution)) {
+            listModel.addElement("x = " + finalSolutionText);
+            System.out.println("Solution: " + finalSolutionText);
+          }
+          i++;
+        } while (i < solutions.length);
       }
+
+      
     });
 
     add(prompt);

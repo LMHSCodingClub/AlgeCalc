@@ -16,22 +16,15 @@ class Monovariable {
    * Uses the quadratic formula to solve the equation
    */
   public static double[][] useQuadraticFormula(double aNum, double bNum, double cNum) {
-
-    double[] aSolution = new double[] { aNum, 0 };
-    double[] bSolution = new double[] { bNum, 0 };
-    double[] cSolution = new double[] { cNum, 0 };
-
-    // double[] discriminant = Math.pow(b, 2) - 4*a*c;
-    double[] discriminant0 = calcComp(bSolution, '^', new double[] { 2, 0 }); // b^2
-
-    double[] discriminant1 = calcComp(new double[] { 4, 0 }, '*', calcComp(aSolution, '*', cSolution)); 
+    double bSquared = Math.pow(bNum, 2);
+    double fourTimesATimesC = 4 * aNum * cNum; 
 
     // Full discriminant
-    double[] discriminant = calcComp(discriminant0, '-', discriminant1);
-
-    double[] twoTimesA = new double[] { 2 * aNum, 0.0 };
-    double[] negativeB = new double[] { -bNum, 0.0 };
+    double[] discriminant = new double[] { bSquared - fourTimesATimesC, 0 };
     double[] rootOfDiscriminant = ComplexService.findSquareRoot(discriminant);
+
+    double[] twoTimesA = new double[] { 2 * aNum, 0 };
+    double[] negativeB = new double[] { -bNum, 0 };
 
     // Solution with plus sign
     double[] xPlus = calcComp(calcComp(negativeB, '+', rootOfDiscriminant), '/', twoTimesA);

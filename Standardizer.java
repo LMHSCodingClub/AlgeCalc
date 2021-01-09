@@ -17,6 +17,7 @@ public class Standardizer {
      */
     public Standardizer(BinaryExpression binExp) {
         expression = binExp;
+        expression = ((BinaryExpression) binExp).leftHandSide;
     }
     
     public double[] getCoefficientsFromExpression() {
