@@ -6,44 +6,40 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 /**
- * Puts an equation in standard form
+ * Converts parsed {@link Expression}s into formula-pluggable values
  */
 public class Standardizer {
-    private BinaryExpression userEquation;
+    private Expression expression;
 
-    public Standardizer(BinaryExpression userEq) {
-        userEquation = userEq;
+    /**
+     * Constructor for Standardizer
+     * @param binExp The binary expression (everything on the left hand side of the equal sign)
+     */
+    public Standardizer(BinaryExpression binExp) {
+        expression = binExp;
     }
-
+    
     public double[] getCoefficientsFromExpression() {
-        Expression expression = userEquation.leftHandSide;
         ArrayList<Double> term = new ArrayList<Double>();
-
-        // 3x + 4 = 5
-        // 3x + 4 - 5 = 0
-        // 3x - 1 = 0
-
-        // 3
+        
         while (expression instanceof BinaryExpression) {
-            BinaryExpression binaryExpr = ((BinaryExpression) expression); 
-
-            if (!(binaryExpr.leftHandSide instanceof BinaryExpression)) {
+            if (
+                ((BinaryExpression) expression).operator != Operator.PLUS && 
+                ((BinaryExpression) expression).operator != Operator.MINUS
+            ) {
                 break;
             }
 
-            if (binaryExpr.operator != Operator.PLUS && binaryExpr.operator != Operator.MINUS) {
-                break;
-            }
-
-            term.add(getCoefficientFromExpression(binaryExpr.rightHandSide));
-            expression = binaryExpr.leftHandSide;
+            term.add(getCoefficientFromExpression(((BinaryExpression) expression).rightHandSide));
+            expression = ((BinaryExpression) expression).leftHandSide;
         }
 
         term.add(getCoefficientFromExpression(expression));
 
 
         return StreamSupport
-            .stream(Spliterators.spliteratorUnknownSize(term
+            .stream(Spliterators.spliteratorUnknownSize(
+                term
                 .stream()
                 .collect(Collectors.toCollection(LinkedList::new))
                 .descendingIterator(), Spliterator.ORDERED), false

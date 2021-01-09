@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 
 class UserInterface extends JFrame {
   private static final long serialVersionUID = 1L;
@@ -70,6 +71,7 @@ class UserInterface extends JFrame {
           solutions = new double[][] { Monovariable.useLinearFormula(coefficients[0], coefficients[1]) };
           break;
         case 3:
+          System.out.println("Coefficients: " + Arrays.toString(coefficients));
           solutions = Monovariable.useQuadraticFormula(coefficients[0], coefficients[1], coefficients[2]);
           break;
         case 4:
