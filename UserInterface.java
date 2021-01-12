@@ -111,16 +111,19 @@ class UserInterface extends JFrame {
         } else {
           finalSolutionText = f.format(solution[0]) + " + " + f.format(solution[1]) + "i, \n";
         }
-        
+
+        listModel.addElement("x = " + finalSolutionText);
+
+        // TODO: Figure out what we want to do with this
+        /*
         int i = 0;
         do {
           // If the solution is a duplicate
           if (!solutions[i].equals(solution)) {
-            listModel.addElement("x = " + finalSolutionText);
             System.out.println("Solution: " + finalSolutionText);
           }
           i++;
-        } while (i < solutions.length);
+        } while (i < solutions.length);*/
       }
 
       

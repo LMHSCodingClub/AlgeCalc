@@ -20,6 +20,19 @@ public class Standardizer {
         expression = ((BinaryExpression) binExp).leftHandSide;
     }
     
+// 5x^3 + 4x^2 + 3x - 15 = 0
+
+
+    //                    =
+    //                 /     \
+    //                -       0
+    //              /  \
+    //            +    15
+    //           / \
+    //          +   3x
+    //         / \
+    //      5x^3  4x^2
+
     public double[] getCoefficientsFromExpression() {
         ArrayList<Double> term = new ArrayList<Double>();
         
@@ -31,7 +44,8 @@ public class Standardizer {
                 break;
             }
 
-            term.add(getCoefficientFromExpression(((BinaryExpression) expression).rightHandSide));
+            int negative = ((BinaryExpression) expression).operator == Operator.MINUS ? -1 : 1;
+            term.add(negative * getCoefficientFromExpression(((BinaryExpression) expression).rightHandSide));
             expression = ((BinaryExpression) expression).leftHandSide;
         }
 
