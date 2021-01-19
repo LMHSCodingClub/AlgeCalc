@@ -58,8 +58,8 @@ class ComplexService {
 
 		case '3': // cube root
 			if (num1[1] == 0) {
-				num3[0] = 0.0;
-				num3[1] = Math.pow(Math.abs(num1[0]), 1.0 / 3.0);
+				num3[1] = 0.0;
+				num3[0] = Math.pow(Math.abs(num1[0]), 1.0 / 3.0);
 			} else {
 				double[] polar = polarize(num1);
 				// You add a 2pi*k for other roots

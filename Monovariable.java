@@ -98,7 +98,7 @@ class Monovariable {
     double[] x = calcComp(neg1Over3a, '*', bPlusCPlusdeltaZeroOverC);
 
     //
-    double[] xi = { -1 / 2, Math.sqrt(3) / 2 };
+    double[] xi = { -0.5, Math.sqrt(3) / 2 };
     double[] xi_sqr = calcComp(xi, '^', new double[] { 2, 0 });
 
     // COME BACK HERE DANIEL AND FINISH THE ALTERNATE X VALUES FOR CUBIC FORMULA
