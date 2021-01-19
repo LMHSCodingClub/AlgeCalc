@@ -116,77 +116,14 @@ class Monovariable {
     // int[][] twoD_arr = new int[10][20];
   }
 
-  public static double[] useCubicFormulaLambda(double[] aSolution, double[] bSolution, double[] cSolution,
-      double[] dSolution) // CUBIC FORMULA, BUT ONLY RETURNS ONE ANSWER
-  {
-
-    // double delta0 = Math.pow(a,3)*c;
-    double[] delta0 = calcComp(calcComp(aSolution, '^', new double[] { 3.0, 0 }), '*', cSolution);
-
-    // SUSPICIOUS!!!!!!!!!!!!!!!
-    double[] delta1 = calcComp(
-
-        calcComp(
-
-            calcComp(calcComp(new double[] { 2, 0 }, '*', bSolution), '^', new double[] { 3.0, 0 }), '-',
-
-            calcComp(calcComp(calcComp(new double[] { 9, 0 }, '*', aSolution), '*', bSolution), '*', cSolution)),
-        '+',
-
-        calcComp(
-
-            calcComp(new double[] { 27, 0 }, '*', calcComp(aSolution, '^', new double[] { 2.0, 0 })), '*', dSolution));
-
-    // double bigC = Math.cbrt((delta1 + Math.sqrt(Math.pow(delta1, 2) -
-    // Math.pow(delta0, 3)))/2);
-    double[] C1 = calcComp(delta1, '^', new double[] { 2, 0 }); // d0 ^ 2
-    double[] C2 = calcComp(delta0, '^', new double[] { 3, 0 }); // d0 ^ 3
-    double[] C3 = calcComp(C2, '*', new double[] { 4, 0 });
-    double[] C4 = calcComp(delta1, '^', new double[] { 2, 0 });
-    double[] C5 = calcComp(C4, '-', C3);
-    double[] C6 = ComplexService.findSquareRoot(C5);
-    double[] C7 = calcComp(delta1, '+', C6);
-    double[] C8 = calcComp(C7, '/', new double[] { 2, 0 });
-    double[] C = calcComp(C8, '3', new double[] {});
-
-    if (C == new double[] { 0, 0 }) {
-      // bigC = Math.cbrt((delta1 - Math.sqrt(Math.pow(delta1, 2) - Math.pow(delta0,
-      // 3)))/2);
-      C7 = calcComp(delta1, '-', C6);
-      C8 = calcComp(C7, '/', new double[] { 2, 0 });
-      C = calcComp(C8, '3', new double[] {});
-    }
-
-    // double result1 = -1/(3*a)*(b+bigC+delta0/bigC);
-    double[] negOneOver3a = calcComp(new double[] { -1, 0 }, '/', calcComp(new double[] { 3, 0 }, '*', aSolution));
-    double[] delta0OverC = calcComp(delta0, '/', C);
-    double[] bPlusC = calcComp(bSolution, '+', C);
-    double[] putEndTogether = calcComp(delta0OverC, '+', bPlusC);
-    double[] result1 = calcComp(negOneOver3a, '*', putEndTogether);
-
-    /*
-     * //double result2 = bigC * ((-1 + Math.sqrt(-3))/2); double[] result2 =
-     * calcComp(C, '*', calcComp(-1, '+', calcComp(calcComp(-3, '2', new double[]
-     * {}), '/', 2)));
-     * 
-     * //double result3 = bigC * ((-1 - Math.sqrt(-3))/2); double[] result3 =
-     * calcComp(C, '*', calcComp (-1, '-', calcComp(calcComp(-3, '2', new double[]
-     * {}), '/', 2)));
-     */
-
-    return result1;
-
-  }
-
   public static double[][] useQuarticFormula(double aNum, double bNum, double cNum, double dNum, double eNum) { // QUARTIC
                                                                                                                 // FORMULA
     // Store placeholder variables p, q, and r
 
-    double[] aSolution = new double[] { aNum, 0 };
-    double[] bSolution = new double[] { bNum, 0 };
-    double[] cSolution = new double[] { cNum, 0 };
-    double[] dSolution = new double[] { dNum, 0 };
-    double[] eSolution = new double[] { eNum, 0 };
+    double[] aSolution = new double[] { bNum / aNum, 0 };
+    double[] bSolution = new double[] { cNum / aNum, 0 };
+    double[] cSolution = new double[] { dNum / aNum, 0 };
+    double[] dSolution = new double[] { eNum / aNum, 0 };
 
     double[] p = calcComp(bSolution, '-', calcComp(new double[] { 3, 0 }, '*',
         calcComp(calcComp(aSolution, '*', aSolution), '/', new double[] { 8, 0 })));
@@ -207,9 +144,10 @@ class Monovariable {
     double[] secondHalfOfR = calcComp(aSquaredBOver16, '-', threeAFourthOver256);
     double[] r = calcComp(firstHalfOfR, '+', secondHalfOfR);
 
-    double[] lambda = useCubicFormulaLambda(new double[] { 1, 0 }, calcComp(new double[] { 2, 0 }, '*', p),
-        calcComp(calcComp(p, '*', p), '-', calcComp(new double[] { 4, 0 }, '*', r)),
-        calcComp(new double[] { -1, 0 }, '*', calcComp(q, '*', q)));
+    double[] lambda = useCubicFormula(1,
+     p[0] * 2,
+        p[0] * p[0] - r[0] * 4,
+        q[0] * q[0] * -1)[0];
 
     // (+,+)
     // The last three lines from this and sqrtLambda are just given different
