@@ -35,7 +35,7 @@ class ComplexService {
 		case '^': // ONLY REAL INT EXPONENTS ALLOWED
 
 			num3[0] = 1;
-			num3[1] = 1;
+			num3[1] = 0;
 			if (num2[0] > 0) {
 				for (int i = 0; i < (int) num2[0]; i++) {
 					num3 = calculateComplex(num3, '*', num1);

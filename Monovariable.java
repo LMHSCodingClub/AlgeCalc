@@ -51,18 +51,14 @@ class Monovariable {
     // NOTE THIS LINE EXISTS< AND IS MAYBE IMPORTANT???
 
     // SUSPICIOUS!!!!!!!!!!!!!!!
-    double[] delta1 = calcComp(
 
-        calcComp(
-            // 2b^3 - 9abc + 27*a^2*d
-            calcComp(calcComp(new double[] { 2, 0 }, '*', bSolution), '^', new double[] { 3.0, 0 }), '-',
 
-            calcComp(calcComp(calcComp(new double[] { 9, 0 }, '*', aSolution), '*', bSolution), '*', cSolution)),
+
+    double[] delta1 = 
+      calcComp(
+        calcComp(calcComp(new double[] { 2, 0 }, '*', calcComp(bSolution, '^', new double[] { 3.0, 0 })), '-',calcComp(calcComp(calcComp(new double[] { 9, 0 }, '*', aSolution), '*', bSolution), '*', cSolution)),
         '+',
-
-        calcComp(
-
-            calcComp(new double[] { 27, 0 }, '*', calcComp(aSolution, '^', new double[] { 2.0, 0 })), '*', dSolution));
+        calcComp(calcComp(new double[] { 27, 0 }, '*', calcComp(aSolution, '^', new double[] { 2.0, 0 })), '*', dSolution));
 
     /*
      * double[] delta1 = calcComp(calcComp(calcComp([2*bNum, 0], '^', new double[]
@@ -77,9 +73,17 @@ class Monovariable {
     double[] C4 = calcComp(delta1, '^', new double[] { 2, 0 });
     double[] C5 = calcComp(C4, '-', C3);
     double[] C6 = ComplexService.findSquareRoot(C5);
+    // This operation is plus or minus; if C is 0 when using plus, these following steps
+    // must be recomputed by using minus, instead
     double[] C7 = calcComp(delta1, '+', C6);
     double[] C8 = calcComp(C7, '/', new double[] { 2, 0 });
     double[] C = calcComp(C8, '3', new double[] {});
+
+    if (C[0] == 0 && C[1] == 0) {
+      C7 = calcComp(delta1, '-', C6);
+      C8 = calcComp(C7, '/', new double[] { 2, 0 });
+      C = calcComp(C8, '3', null);
+    }
 
     /*
      * double[] x = calcComp(new double[]{-1,0}, '/', calcComp(new double[]{3,0},
