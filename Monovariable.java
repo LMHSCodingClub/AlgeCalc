@@ -117,7 +117,6 @@ class Monovariable {
   }
 
   public static double[][] useQuarticFormula(double aNum, double bNum, double cNum, double dNum, double eNum) { // QUARTIC
-                                                                                                                // FORMULA
     // Store placeholder variables p, q, and r
 
     double[] aSolution = new double[] { bNum / aNum, 0 };
@@ -125,9 +124,18 @@ class Monovariable {
     double[] cSolution = new double[] { dNum / aNum, 0 };
     double[] dSolution = new double[] { eNum / aNum, 0 };
 
-    double[] p = calcComp(bSolution, '-', calcComp(new double[] { 3, 0 }, '*',
-        calcComp(aSolution, '^', new double[] {2, 0}), '/', new double[] { 8, 0 }));
+    // 
+    double[] p = calcComp(
+      bSolution, 
+      '-', 
+      calcComp(
+        new double[] { 3.0 / 8.0, 0 }, 
+        '*',
+        calcComp(aSolution, '^', new double[] {2, 0})
+      )
+    );
 
+    
     double[] abOver2 = calcComp(calcComp(aSolution, '*', bSolution), '/', new double[] { 2, 0 }); // (Singh, 2020),
                                                                                                   // Jared stole this.
     double[] aCubedOver8 = calcComp(calcComp(aSolution, '^', new double[] { 3, 0 }), '/', new double[] { 8, 0 });
@@ -144,19 +152,24 @@ class Monovariable {
     double[] secondHalfOfR = calcComp(aSquaredBOver16, '-', threeAFourthOver256);
     double[] r = calcComp(firstHalfOfR, '+', secondHalfOfR);
 
-    double[] lambda = useCubicFormula(1,
+    double[][] allLambda = useCubicFormula(1,
      p[0] * 2,
         p[0] * p[0] - r[0] * 4,
-        q[0] * q[0] * -1)[0];
+        q[0] * q[0] * -1);
+    
+    double[] lambda = allLambda[0];
+        
 
     // (+,+)
-    // The last three lines from this and sqrtLambda are just given different
-    // itterations
+    // The last three lines from this and sqrtLambda are just given different iterations
     double[] sqrtLambda = ComplexService.findSquareRoot(lambda);
     double[] qOverSqrtLambda = calcComp(q, '/', sqrtLambda);
-    double[] innerParen = calcComp(calcComp(p, '+', lambda), '-', qOverSqrtLambda);
-    double[] twoTimesInnerParen = calcComp(new double[] { 2, 0 }, '*', innerParen);
-    double[] lambdaMinusTwoTimesInnerParen = calcComp(lambda, '-', twoTimesInnerParen);
+    double[] innerParenMinus = calcComp(calcComp(p, '+', lambda), '-', qOverSqrtLambda);
+    double[] innerParenPlus = calcComp(calcComp(p, '+', lambda), '+', qOverSqrtLambda);
+    double[] twoTimesInnerParenPlus = calcComp(new double[] { 2, 0 }, '*', innerParenPlus
+    double[] twoTimesInnerParenMinus = calcComp(new double[] { 2, 0 }, '*', innerParenMinus);
+    double[] lambdaMinusTwoTimesInnerParenPlus = calcComp(lambda, '-', twoTimesInnerParenPlus);
+    double[] lambdaMinusTwoTimesInnerParenMinus = calcComp(lambda, '-', twoTimesInnerParenMinus);
     double[] innerSqrt = ComplexService.findSquareRoot(lambdaMinusTwoTimesInnerParen);
     double[] sqrtLambdaPlusInnerSqrt = calcComp(sqrtLambda, '+', innerSqrt);//
     double[] outerParenOver2 = calcComp(sqrtLambdaPlusInnerSqrt, '/', new double[] { 2, 0 });
