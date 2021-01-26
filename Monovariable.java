@@ -126,7 +126,7 @@ class Monovariable {
     double[] dSolution = new double[] { eNum / aNum, 0 };
 
     double[] p = calcComp(bSolution, '-', calcComp(new double[] { 3, 0 }, '*',
-        calcComp(aSolution, '^', new double[] {3, 0}), '/', new double[] { 8, 0 }));
+        calcComp(aSolution, '^', new double[] {2, 0}), '/', new double[] { 8, 0 }));
 
     double[] abOver2 = calcComp(calcComp(aSolution, '*', bSolution), '/', new double[] { 2, 0 }); // (Singh, 2020),
                                                                                                   // Jared stole this.
