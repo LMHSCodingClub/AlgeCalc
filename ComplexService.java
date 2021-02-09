@@ -13,6 +13,13 @@ class ComplexService {
 	// modification: z = r(cos x + i sin x)
 	// r^(1/n) ( cos((x+2pi*k)/(n)) + i*sin((x+2pi*k)/n))
 
+	/**
+	 * @param num1
+	 * @param sign
+	 * @param num2
+	 * @return
+	 * @deprecated Use the specific operation methods instead
+	 */
 	public static double[] calculateComplex(double[] num1, char sign, double[] num2) {
 		double[] num3 = new double[2]; // Complex-ate this
 
@@ -78,6 +85,34 @@ class ComplexService {
 		}
 
 		return num3;
+	}
+
+	public static double[] findSum(double[] addend, double[] augend) {
+		return new double[] {
+			addend[0] + augend[0],
+			addend[1] + augend[1]
+		};		
+	}
+
+	public static double[] findDifference(double[] subtrahend, double[] minuend) {
+		return new double[] {
+			subtrahend[0] - minuend[0],
+		    subtrahend[1] - minuend[1]
+		};
+	}
+
+	public static double[] findProduct(double[] multiplicand, double[] multiplier) {
+		return new double[] {
+			multiplicand[0] * multiplier[0] - multiplicand[1] * multiplier[1],
+			multiplicand[1] * multiplier[0] + (multiplicand[0] * multiplier[1])
+		};
+	}
+
+	public static double[] findQuotient(double[] dividend, double[] divisor) {
+		return new double[] {
+			((dividend[0] * divisor[0]) + dividend[1] * divisor[1]) / (Math.pow(divisor[0], 2) + Math.pow(divisor[1], 2)),
+			((dividend[1] * divisor[0]) - (dividend[0] * divisor[1])) / (Math.pow(divisor[0], 2) + Math.pow(divisor[1], 2))
+		};
 	}
 
 	/**
