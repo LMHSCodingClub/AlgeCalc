@@ -1,9 +1,18 @@
-import javax.swing.*;
-import javax.swing.GroupLayout.Alignment;
-
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Insets;
 import java.text.DecimalFormat;
 import java.util.Arrays;
+
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 class UserInterface extends JFrame {
   private static final long serialVersionUID = 1L;
@@ -101,8 +110,8 @@ class UserInterface extends JFrame {
       listModel.clear();
 
       for (double[] solution : solutions) {
-        // Round each part of each solution to the nearest thousandth
-        DecimalFormat f = new DecimalFormat("##.###");
+        // Round each part of each solution to the nearest hundred-thousandth
+        DecimalFormat f = new DecimalFormat("##.#####");
 
         String finalSolutionText = "";
 
@@ -113,17 +122,6 @@ class UserInterface extends JFrame {
         }
 
         listModel.addElement("x = " + finalSolutionText);
-
-        // TODO: Figure out what we want to do with this
-        /*
-        int i = 0;
-        do {
-          // If the solution is a duplicate
-          if (!solutions[i].equals(solution)) {
-            System.out.println("Solution: " + finalSolutionText);
-          }
-          i++;
-        } while (i < solutions.length);*/
       }
 
       

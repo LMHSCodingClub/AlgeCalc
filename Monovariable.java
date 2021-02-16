@@ -1,9 +1,13 @@
+
 /** 
  * Operations on equations that involve one variable using a formula for each degree
  * @author Alan Joseph, Andrew Wang, Meggan Shvartsberg, Jared Levin, 
  * Nihal Bankulla, Daniel Porotov, David Volchonock, John Tur, Varun Singh
  * @implNote All methods are static
  */
+
+import java.util.Arrays;
+
 class Monovariable {
   public static double[] useLinearFormula(double aNum, double bNum) {
 
@@ -49,31 +53,18 @@ class Monovariable {
     double[] delta0 = calcComp(calcComp(bSolution, '^', new double[] { 2.0, 0 }), '-',
         calcComp(calcComp(aSolution, '*', cSolution), '*', new double[] { 3.0, 0 }));
 
-    // calcComp(bSolution, '^', new double[] {2, 0}), '-', calcComp(new double[]
-    // {3,0}, '*', calcComp(aSolution, '*', cSolution)));
-    // NOTE THIS LINE EXISTS< AND IS MAYBE IMPORTANT???
-
-    // SUSPICIOUS!!!!!!!!!!!!!!!
-
     double[] delta1 = calcComp(
         calcComp(calcComp(new double[] { 2, 0 }, '*', calcComp(bSolution, '^', new double[] { 3.0, 0 })), '-',
             calcComp(calcComp(calcComp(new double[] { 9, 0 }, '*', aSolution), '*', bSolution), '*', cSolution)),
         '+', calcComp(calcComp(new double[] { 27, 0 }, '*', calcComp(aSolution, '^', new double[] { 2.0, 0 })), '*',
             dSolution));
 
-    /*
-     * double[] delta1 = calcComp(calcComp(calcComp([2*bNum, 0], '^', new double[]
-     * {3.0, 0}), '-', new double[] {9*aNum*bNum*cNum,0}), '+',
-     * calcComp(calcComp(new double[] {aNum*27, 0}, '^', new double[] {2.0, 0}),
-     * '*', dSolution)
-     */
-
-    double[] C1 = calcComp(delta1, '^', new double[] { 2, 0 }); // d0 ^ 2
-    double[] C2 = calcComp(delta0, '^', new double[] { 3, 0 }); // d0 ^ 3
+    double[] C2 = calcComp(delta0, '^', new double[] { 3, 0 }); // d
     double[] C3 = calcComp(C2, '*', new double[] { 4, 0 });
     double[] C4 = calcComp(delta1, '^', new double[] { 2, 0 });
     double[] C5 = calcComp(C4, '-', C3);
     double[] C6 = ComplexService.findSquareRoot(C5);
+
     // This operation is plus or minus; if C is 0 when using plus, these following
     // steps
     // must be recomputed by using minus, instead
@@ -87,35 +78,42 @@ class Monovariable {
       C = calcComp(C8, '3', null);
     }
 
-    /*
-     * double[] x = calcComp(new double[]{-1,0}, '/', calcComp(new double[]{3,0},
-     * '*', aSolution), '*', (calcComp(calcComp(bSolution, '+', C), '+',
-     * calcComp(delta0, '/', C))));
-     */
+    // sqrt(3)*i
+    double[] squareRootOfThreeI = ComplexService.findSquareRoot(new double[] { -3, 0 });
+    double[] xiPlus = calcComp(ComplexService.findSum(
+      new double[] { -1.0, 0 },
+      squareRootOfThreeI
+    ), '/', new double[] { 2.0, 0 } );
 
-    double[] neg1Over3a = calcComp(new double[] { -1, 0 }, '/', calcComp(new double[] { 3, 0 }, '*', aSolution));
-    double[] deltaZeroOverC = calcComp(delta0, '/', C);
-    double[] cPlusdeltaZeroOverC = calcComp(C, '+', deltaZeroOverC);
-    double[] bPlusCPlusdeltaZeroOverC = calcComp(bSolution, '+', cPlusdeltaZeroOverC);
-    double[] x = calcComp(neg1Over3a, '*', bPlusCPlusdeltaZeroOverC);
+    double[] xi1 = new double[] { xiPlus[0], xiPlus[1] };
+    double[] xi2 = calcComp(xiPlus, '^', new double[] { 2, 0 });
 
-    //
-    double[] xi = { -0.5, Math.sqrt(3) / 2 };
-    double[] xi_sqr = calcComp(xi, '^', new double[] { 2, 0 });
+    double[] negativeOneOver3A = new double[] { -1.0 / (3.0 * aNum), 0 };
+    
+    double[] firstSolution = calcComp(negativeOneOver3A,
+        '*', sumMultiple(bSolution, C, calcComp(delta0, '/', C)));
 
-    // COME BACK HERE DANIEL AND FINISH THE ALTERNATE X VALUES FOR CUBIC FORMULA
-    double[] x0 = calcComp(calcComp(new double[] { -1, 0 }, '/', (calcComp(new double[] { 3, 0 }, '*', aSolution))),
-        '*', calcComp(calcComp(bSolution, '+', C), '+', calcComp(delta0, '/', C)));
-    double[] x1 = calcComp(calcComp(new double[] { -1, 0 }, '/', (calcComp(new double[] { 3, 0 }, '*', aSolution))),
-        '*',
-        calcComp(calcComp(bSolution, '+', calcComp(xi, '*', C)), '+', calcComp(delta0, '/', calcComp(xi, '*', C))));
-    double[] x2 = calcComp(calcComp(new double[] { -1, 0 }, '/', (calcComp(new double[] { 3, 0 }, '*', aSolution))),
-        '*', calcComp(calcComp(bSolution, '+', calcComp(xi_sqr, '*', C)), '+',
-            calcComp(delta0, '/', calcComp(xi_sqr, '*', C))));
+    double[] xiTimesC = calcComp(xi1, '*', C);
 
-    return new double[][] { x0, x1, x2 };
+    double[] secondSolution = calcComp(
+      negativeOneOver3A, 
+      '*', 
+      sumMultiple(bSolution, xiTimesC, calcComp(delta0, '/', xiTimesC))
+    );
 
-    // int[][] twoD_arr = new int[10][20];
+    xiTimesC = calcComp(xi2, '*', C);
+    
+    double[] thirdSolution = calcComp(
+      negativeOneOver3A,
+      '*',
+      sumMultiple(bSolution, xiTimesC, calcComp(delta0, '/', xiTimesC))
+    );
+
+    return new double[][] { firstSolution, secondSolution, thirdSolution };
+  }
+
+  private static double[] sumMultiple(double[] first, double[] second, double[] third) {
+    return ComplexService.findSum(ComplexService.findSum(first, second), third);
   }
 
   public static double[][] useQuarticFormula(double aNum, double bNum, double cNum, double dNum, double eNum) { // QUARTIC
@@ -142,28 +140,36 @@ class Monovariable {
     double[] threeAFourthOver256 = calcComp(
         calcComp(calcComp(aSolution, '^', new double[] { 4, 0 }), '*', new double[] { 3, 0 }), '/',
         new double[] { 256, 0 });
-    double[] firstHalfOfR = calcComp(dSolution, '-', acOver4);
-    double[] secondHalfOfR = calcComp(aSquaredBOver16, '-', threeAFourthOver256);
-    double[] r = calcComp(firstHalfOfR, '+', secondHalfOfR);
+    double[] firstHalfOfR = ComplexService.findDifference(dSolution, acOver4);
+    double[] secondHalfOfR = ComplexService.findDifference(aSquaredBOver16, threeAFourthOver256);
+    double[] r = ComplexService.findSum(firstHalfOfR, secondHalfOfR);
 
-    double[][] allLambda = useCubicFormula(1, p[0] * 2, p[0] * p[0] - r[0] * 4, q[0] * q[0] * -1);
+    // TODO: Fix useCubicFormula()
+    double first = 1.0;
+    double second = p[0] * 2.0;
+    double third = p[0] * p[0] - r[0] * 4;
+    double fourth = q[0] * q[0] * -1.0;
+    double[][] allLambda = useCubicFormula(first, second, third, fourth);
 
     double[] lambda = allLambda[0];
+    double[] lambda1 = allLambda[1];
+    double[] lambda2 = allLambda[2];
+    System.out.println("lambda = " + Arrays.toString(lambda));
+    System.out.println("lambda1 = " + Arrays.toString(lambda1));
+    System.out.println("lambda2 = " + Arrays.toString(lambda2));
 
     // (+,+)
     // The last three lines from this and sqrtLambda are just given different
     // iterations
     double[] sqrtLambda = ComplexService.findSquareRoot(lambda);
     double[] qOverSqrtLambda = calcComp(q, '/', sqrtLambda);
-    double[] innerParenMinus = calcComp(calcComp(p, '+', lambda), '-', qOverSqrtLambda);
     double[] innerParenPlus = calcComp(calcComp(p, '+', lambda), '+', qOverSqrtLambda);
     double[] twoTimesInnerParenPlus = calcComp(new double[] { 2, 0 }, '*', innerParenPlus);
-    double[] twoTimesInnerParenMinus = calcComp(new double[] { 2, 0 }, '*', innerParenMinus);
     double[] lambdaMinusTwoTimesInnerParenPlus = calcComp(lambda, '-', twoTimesInnerParenPlus);
-    double[] lambdaMinusTwoTimesInnerParenMinus = calcComp(lambda, '-', twoTimesInnerParenMinus);
-    // x^4+5x^3-7x^2+2x+9
+
+    // x^4+5x^3-7x^2+2x+9 = 0
     double[] innerSqrt = ComplexService.findSquareRoot(lambdaMinusTwoTimesInnerParenPlus);
-    double[] sqrtLambdaPlusInnerSqrt = calcComp(sqrtLambda, '+', innerSqrt);//
+    double[] sqrtLambdaPlusInnerSqrt = ComplexService.findSum(sqrtLambda, innerSqrt);//
     double[] outerParenOver2 = calcComp(sqrtLambdaPlusInnerSqrt, '/', new double[] { 2, 0 });
     double[] aOver4 = calcComp(aSolution, '/', new double[] { 4, 0 });
 
@@ -195,6 +201,7 @@ class Monovariable {
   }
 
   /**
+   * @deprecated
    * Convenience method for ComplexService.calculateComplex()
    */
   public static double[] calcComp(double num1[], char sign, double[] num2) {

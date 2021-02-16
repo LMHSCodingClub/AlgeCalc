@@ -1,9 +1,4 @@
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * Converts parsed {@link Expression}s into formula-pluggable values
@@ -51,15 +46,20 @@ public class Standardizer {
 
         term.add(getCoefficientFromExpression(expression));
 
+        return reverseArray(term);
+    }
 
-        return StreamSupport
-            .stream(Spliterators.spliteratorUnknownSize(
-                term
-                .stream()
-                .collect(Collectors.toCollection(LinkedList::new))
-                .descendingIterator(), Spliterator.ORDERED), false
-            )
-            .mapToDouble(Double::doubleValue).toArray();
+    double[] reverseArray(ArrayList<Double> term) {
+        double[] reversedTerm = new double[term.size()];
+
+        // LENGTH 2
+        // 0: reversedTerm[2 - 0 - 1 = 1] = term.get(0)
+        // 1: reversedTerm[2 - 1 - 1 = 0] = term.get(1)
+        for (int i = 0; i < reversedTerm.length; i++) {
+            reversedTerm[i] = term.get(reversedTerm.length - i - 1);
+        }
+
+        return reversedTerm;
     }
 
     /**
