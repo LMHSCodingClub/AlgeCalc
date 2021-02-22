@@ -115,7 +115,7 @@ class UserInterface extends JFrame {
 
         String finalSolutionText = "";
 
-        if (solution[1] == 0) {
+        if (Math.abs(solution[1]) < 0.00001) {
           finalSolutionText = f.format(solution[0]);
         } else {
           finalSolutionText = f.format(solution[0]) + " + " + f.format(solution[1]) + "i, \n";

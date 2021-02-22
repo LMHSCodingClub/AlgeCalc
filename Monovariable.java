@@ -49,7 +49,7 @@ class Monovariable {
     double[] bSolution = new double[] { bNum, 0 };
     double[] cSolution = new double[] { cNum, 0 };
     double[] dSolution = new double[] { dNum, 0 };
-
+    
     double[] delta0 = calcComp(calcComp(bSolution, '^', new double[] { 2.0, 0 }), '-',
         calcComp(calcComp(aSolution, '*', cSolution), '*', new double[] { 3.0, 0 }));
 
@@ -149,6 +149,9 @@ class Monovariable {
     double second = p[0] * 2.0;
     double third = p[0] * p[0] - r[0] * 4;
     double fourth = q[0] * q[0] * -1.0;
+
+    System.out.println(String.format("%fx^3 + %fx^2 + %fx + %f", first, second, third, fourth));
+
     double[][] allLambda = useCubicFormula(first, second, third, fourth);
 
     double[] lambda = allLambda[0];
@@ -165,7 +168,7 @@ class Monovariable {
     double[] qOverSqrtLambda = calcComp(q, '/', sqrtLambda);
     double[] innerParenPlus = calcComp(calcComp(p, '+', lambda), '+', qOverSqrtLambda);
     double[] twoTimesInnerParenPlus = calcComp(new double[] { 2, 0 }, '*', innerParenPlus);
-    double[] lambdaMinusTwoTimesInnerParenPlus = calcComp(lambda, '-', twoTimesInnerParenPlus);
+    double[] lambdaMinusTwoTimesInnerParenPlus = calcComp(lambda, '-', twoTimesInnerParenPlus); // Verified!!!!
 
     // x^4+5x^3-7x^2+2x+9 = 0
     double[] innerSqrt = ComplexService.findSquareRoot(lambdaMinusTwoTimesInnerParenPlus);
@@ -177,6 +180,12 @@ class Monovariable {
     double[] secondSqrtLambdaPlusInnerSqrt = calcComp(sqrtLambda, '-', innerSqrt);//
     double[] secondOuterParenOver2 = calcComp(secondSqrtLambdaPlusInnerSqrt, '/', new double[] { 2, 0 });
     double[] secondAOver4 = calcComp(aSolution, '/', new double[] { 4, 0 });
+
+    double[] innerParenMinus = calcComp(calcComp(p, '+', lambda), '-', qOverSqrtLambda);
+    double[] twoTimesInnerParenMinus = calcComp(new double[] { 2, 0 }, '*', innerParenMinus);
+    double[] lambdaMinusTwoTimesInnerParenMinus = calcComp(lambda, '-', twoTimesInnerParenMinus);
+
+    innerSqrt = ComplexService.findSquareRoot(lambdaMinusTwoTimesInnerParenMinus);
 
     // (-,-)
     double[] negativeSrtLambda = calcComp(new double[] { -1, 0 }, '*', ComplexService.findSquareRoot(lambda));
