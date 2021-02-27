@@ -1,4 +1,3 @@
-import java.util.Arrays;
 
 /**
  * Operations on equations that involve one variable using a formula for each
@@ -101,7 +100,6 @@ class Monovariable {
     ComplexNumber secondHalfOfR = aSquaredBOver16.minus(threeAFourthOver256);
     ComplexNumber r = firstHalfOfR.plus(secondHalfOfR);
 
-    // TODO: Fix useCubicFormula()
     double first = 1.0;
     double second = p.getRealPart() * 2.0;
     double third = p.getRealPart() * p.getRealPart() - r.getRealPart() * 4;
