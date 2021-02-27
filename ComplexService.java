@@ -1,15 +1,9 @@
 import java.lang.Math;
 
+/**
+ * @deprecated Use ComplexNumber instance class instead
+ */
 class ComplexService {
-
-	private static double[] polarize(double num[]) {
-		double r = Math.sqrt(Math.pow(num[0], 2) + Math.pow(num[1], 2));
-		double theta = Math.atan(num[1] / num[0]);
-		double[] polar2 = { r, theta };
-		return polar2;
-
-	}
-
 	// modification: z = r(cos x + i sin x)
 	// r^(1/n) ( cos((x+2pi*k)/(n)) + i*sin((x+2pi*k)/n))
 
@@ -119,7 +113,7 @@ class ComplexService {
 	 */
 	public static double[] findSquareRoot(double[] num1) {
 		double[] num3 = new double[2];
-		if (num1[1] == 0) {
+		if (num1[1] == 0) { // sqrt(5 + 0i) = i*sqrt(5)
 			num3[0] = 0.0;
 			num3[1] = Math.pow(Math.abs(num1[0]), 1.0 / 2.0);
 		} else {
@@ -128,6 +122,15 @@ class ComplexService {
 			num3[1] = Math.pow(polar[0], 1.0 / 2.0) * Math.sin((polar[1] / (2))); // You add a 2pi*k for other roots
 		}
 
+		
+
 		return num3;
+	}
+
+	private static double[] polarize(double[] num) {
+		double r = Math.sqrt(Math.pow(num[0], 2) + Math.pow(num[1], 2));
+		double theta = Math.atan(num[1] / num[0]);
+		double[] polar2 = { r, theta };
+		return polar2;
 	}
 }

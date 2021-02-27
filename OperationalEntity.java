@@ -5,5 +5,11 @@ interface OperationalEntity {
 
     OperationalEntity times(OperationalEntity factor);
 
-    OperationalEntity dividedBy(OperationalEntity dividend);
+    OperationalEntity divideBy(OperationalEntity dividend);
+
+    OperationalEntity pow(OperationalEntity exponent);
+
+    OperationalEntity sqrt();
+
+    OperationalEntity cbrt();
 }
