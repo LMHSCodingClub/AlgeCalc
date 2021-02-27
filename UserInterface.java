@@ -1,7 +1,6 @@
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
-import java.text.DecimalFormat;
 import java.util.Arrays;
 
 import javax.swing.BoxLayout;
@@ -88,11 +87,11 @@ class UserInterface extends JFrame {
 
       Standardizer standardizer = new Standardizer(binExp);
       double[] coefficients = standardizer.getCoefficientsFromExpression();
-      double[][] solutions = null;
+      ComplexNumber[] solutions = null;
 
       switch (coefficients.length) {
       case 2:
-        solutions = new double[][] { Monovariable.useLinearFormula(coefficients[0], coefficients[1]) };
+        solutions = new ComplexNumber[] { Monovariable.useLinearFormula(coefficients[0], coefficients[1]) };
         break;
       case 3:
         System.out.println("Coefficients: " + Arrays.toString(coefficients));
@@ -109,17 +108,9 @@ class UserInterface extends JFrame {
 
       listModel.clear();
 
-      for (double[] solution : solutions) {
+      for (ComplexNumber solution : solutions) {
         // Round each part of each solution to the nearest hundred-thousandth
-        DecimalFormat f = new DecimalFormat("##.#####");
-
-        String finalSolutionText = "";
-
-        if (Math.abs(solution[1]) < 0.00001) {
-          finalSolutionText = f.format(solution[0]);
-        } else {
-          finalSolutionText = f.format(solution[0]) + " + " + f.format(solution[1]) + "i, \n";
-        }
+        String finalSolutionText = solution.toString();
 
         listModel.addElement("x = " + finalSolutionText);
       }

@@ -1,6 +1,6 @@
-# TetraTicTacToe
+# AlgeCalc
 
-A Python GUI program
+AlgeCalc is an algebraic calculator. It calculates linear real solutions, linear imaginary solutions, quadratic real solutions, quadratic imaginary solutions, cubic real solutions, cubic imaginary solutions, quartic real solutions, and quartic imaginary solutions. 
 
 ## Getting Started
 
