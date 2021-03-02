@@ -9,6 +9,7 @@ public class ComplexNumber implements OperationalEntity {
 
     ComplexNumber(double r) {
         realPart = r;
+        imaginaryPart = 0;
     }
 
     ComplexNumber(double r, double im) {
@@ -26,12 +27,12 @@ public class ComplexNumber implements OperationalEntity {
 
     @Override
     public String toString() {
-        if (imaginaryPart == 0) {
+        if (hasOnlyRealPart() || realPart == 0) {
             return Double.toString(realPart);
         } else if (imaginaryPart < 0) {
-            return String.format("%d - %di", realPart, -imaginaryPart);
+            return String.format("%f - %fi", realPart, Math.abs(imaginaryPart));
         } else {
-            return String.format("%d + %di", realPart, imaginaryPart);
+            return String.format("%f + %fi", realPart, imaginaryPart);
         }
     }
 
@@ -64,8 +65,10 @@ public class ComplexNumber implements OperationalEntity {
 
     public ComplexNumber times(OperationalEntity factor) {
         ComplexNumber compFactor = (ComplexNumber) factor;
-        return new ComplexNumber(realPart * compFactor.getRealPart() - imaginaryPart * compFactor.getImaginaryPart(),
-                imaginaryPart * compFactor.getRealPart() + (realPart * compFactor.getImaginaryPart()));
+        return new ComplexNumber(
+            realPart * compFactor.getRealPart() - imaginaryPart * compFactor.getImaginaryPart(),
+            imaginaryPart * compFactor.getRealPart() + (realPart * compFactor.getImaginaryPart())
+        );
     }
 
     public ComplexNumber times(double factor) {
@@ -101,8 +104,7 @@ public class ComplexNumber implements OperationalEntity {
             for (int i = 0; i < (int) compExp.getRealPart(); i++) {
                 result = result.times(this);
             }
-        } else // num2[0] < 0
-        {
+        } else if (compExp.getRealPart() < 0) {
             for (int i = 0; i > compExp.getRealPart(); i--) {
                 result = result.divideBy(this);
             }
@@ -120,32 +122,30 @@ public class ComplexNumber implements OperationalEntity {
      */
     @Override
     public ComplexNumber sqrt() {
+        if (hasOnlyRealPart() || realPart == 0) {
+            // If it is positive and real, just take Math.sqrt
+            if (realPart >= 0)
+                return new ComplexNumber(Math.sqrt(realPart));
+            // If it is negative and real, take Math.sqrt of abs and make imaginaryPart 1
+            else
+                return new ComplexNumber(0, 1).times(Math.sqrt(Math.abs(realPart)));
+        }
+
         double[] polar = polarize(asDouble());
-
-        // If it is positive and real, just take Math.sqrt
-        if (realPart > 0 && !isImaginary()) {
-            return new ComplexNumber(Math.sqrt(realPart));
-        }
-
-        // If it is negative and real, take Math.sqrt of abs and make imaginaryPart 1
-        else if (realPart < 0 && !isImaginary()) {
-            return new ComplexNumber(0, 1).times(Math.sqrt(-realPart));
-        }
-
         // DONE: Anything else, do this:
         return new ComplexNumber(
-            // You add a 2pi*k for other roots
-            Math.pow(realPart, 1.0 / 2.0) * Math.cos((polar[1] / (2))),
-            Math.pow(polar[0], 1.0 / 2.0) * Math.sin((polar[1] / (2))) 
-        );
+                // You add a 2pi*k for other roots
+                Math.pow(realPart, 1.0 / 2.0) * Math.cos((polar[1] / (2))),
+                Math.pow(polar[0], 1.0 / 2.0) * Math.sin((polar[1] / (2))));
     }
 
     /**
-     * @apiNote Formerly {@link ComplexService.calculateComplex(double[], '3', null)}
+     * @apiNote Formerly {@link ComplexService.calculateComplex(double[], '3',
+     *          null)}
      */
     @Override
     public ComplexNumber cbrt() {
-        if (isReal()) {
+        if (hasRealPart()) {
             return new ComplexNumber(Math.pow(Math.abs(realPart), 1.0 / 3.0));
         } else {
             double[] polar = polarize(asDouble());
@@ -156,22 +156,30 @@ public class ComplexNumber implements OperationalEntity {
         }
     }
 
-    boolean isReal() {
+    boolean hasOnlyRealPart() {
+        return hasRealPart() && !hasImaginaryPart();
+    }
+
+    boolean hasOnlyImaginaryPart() {
+        return !hasRealPart() && hasImaginaryPart();
+    }
+
+    boolean hasRealPart() {
         return realPart != 0;
     }
 
-    boolean isImaginary() {
+    boolean hasImaginaryPart() {
         return imaginaryPart != 0;
     }
 
     boolean isComplex() {
-        return isReal() && isImaginary();
+        return hasRealPart() && hasImaginaryPart();
     }
 
     private double[] polarize(double[] num) {
-		double r = Math.sqrt(Math.pow(num[0], 2) + Math.pow(num[1], 2));
-		double theta = Math.atan(num[1] / num[0]);
-		double[] polar2 = { r, theta };
-		return polar2;
-	}
+        double r = Math.sqrt(Math.pow(num[0], 2) + Math.pow(num[1], 2));
+        double theta = Math.atan(num[1] / num[0]);
+        double[] polar2 = { r, theta };
+        return polar2;
+    }
 }

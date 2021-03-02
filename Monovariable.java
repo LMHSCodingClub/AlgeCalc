@@ -13,8 +13,7 @@ class Monovariable {
     ComplexNumber bSolution = new ComplexNumber(bNum);
 
     ComplexNumber negativeB = bSolution.times(-1);
-    ComplexNumber twoA = aSolution.times(2);
-    return negativeB.divideBy(twoA);
+    return negativeB.divideBy(aSolution);
   }
 
   /**
@@ -69,6 +68,8 @@ class Monovariable {
 
     for (int i = 0; i <= 2; i++) {
       ComplexNumber xiTimesC = xi.pow(i).times(c);
+      System.out.println(String.format("%s (%s + %s + (%s / %s)", minus1Over3A.toString(), xiTimesC.toString(), String.valueOf(bNum), delta0.toString(), xiTimesC.toString()));
+      
       solutions[i] = minus1Over3A.times(xiTimesC.plus(bNum).plus(delta0.divideBy(xiTimesC)));
     }
 

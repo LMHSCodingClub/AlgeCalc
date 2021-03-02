@@ -108,14 +108,12 @@ class UserInterface extends JFrame {
 
       listModel.clear();
 
+      // Round each part of each solution to the nearest hundred-thousandth
       for (ComplexNumber solution : solutions) {
-        // Round each part of each solution to the nearest hundred-thousandth
-        String finalSolutionText = solution.toString();
-
-        listModel.addElement("x = " + finalSolutionText);
+        String solutionStr = "x = " + solution.toString();
+        System.out.println(solutionStr);
+        listModel.addElement(solutionStr);
       }
-
-      
     });
 
     add(prompt);
